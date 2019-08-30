@@ -35,7 +35,7 @@ jobs:
           command: |
             stack setup
             rm -fr $(stack path --dist-dir) $(stack path --local-install-root)
-            yarn install
+            yarn install --frozen-lockfile
 
       - save_cache:
           name: Cache Dependencies (Haskell)
@@ -61,6 +61,8 @@ jobs:
           name: Lint JS
           command: |
             yarn run eslint
+
+      - run: $(yarn bin)/cypress run --record --key <record_key>
 
       # TODO: Figure out why this fails.
       # - run:
